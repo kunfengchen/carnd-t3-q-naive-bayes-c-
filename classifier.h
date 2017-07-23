@@ -12,6 +12,9 @@ class GNB {
 public:
 
 	vector<string> possible_labels = {"left","keep","right"};
+    vector<float> means;
+    vector<float> vars;
+    vector<float> posts;
 
 
 	/**
@@ -27,6 +30,8 @@ public:
 	void train(vector<vector<double> > data, vector<string>  labels);
 
 	string predict(vector<double>);
+
+	float gauss(float x, float mu, float v);
 
 };
 

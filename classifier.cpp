@@ -57,3 +57,8 @@ string GNB::predict(vector<double>)
 	return this->possible_labels[1];
 
 }
+
+float GNB::gauss(float x, float m, float v) {
+    float d = x - m;
+    return 1/sqrt(2*M_PI*v)*exp(-1.0 *(d*d)/(2*v));
+}
