@@ -5,17 +5,21 @@
 #include <fstream>
 #include <math.h>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 class GNB {
 public:
-
+    static const int N_FEATURES = 4;
+	static const int N_CLASSES = 3;
 	vector<string> possible_labels = {"left","keep","right"};
-    vector<float> means;
-    vector<float> vars;
-    vector<float> posts;
+    double means[N_CLASSES][N_FEATURES];
+	double vars[N_CLASSES][N_FEATURES];
+	double posts[N_CLASSES];
+    int class_count[N_CLASSES];
 
+    static const std::map<std::string, int> label_values;
 
 	/**
   	* Constructor
@@ -31,7 +35,7 @@ public:
 
 	string predict(vector<double>);
 
-	float gauss(float x, float mu, float v);
+	double gauss(double x, double mu, double v);
 
 };
 
