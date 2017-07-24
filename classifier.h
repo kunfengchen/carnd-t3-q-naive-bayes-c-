@@ -16,8 +16,10 @@ public:
 	vector<string> possible_labels = {"left","keep","right"};
     double means[N_CLASSES][N_FEATURES];
 	double vars[N_CLASSES][N_FEATURES];
-	double posts[N_CLASSES];
+	double priors[N_CLASSES];
+	double posteriors[N_CLASSES];
     int class_count[N_CLASSES];
+    int n_data;
 
     static const std::map<std::string, int> label_values;
 

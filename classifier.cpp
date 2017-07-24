@@ -34,6 +34,8 @@ void GNB::train(vector<vector<double>> data, vector<string> labels)
 
 		labels - array of N labels
 		  - Each label is one of "left", "keep", or "right".
+		# TODO - complete this
+		# DONE
 	*/
 
     int c_value;
@@ -43,7 +45,6 @@ void GNB::train(vector<vector<double>> data, vector<string> labels)
 
     // init
     for (int j = 0; j < N_CLASSES; j++) {
-        posts[j] = 0;
         class_count[j] = 0;
         for (int k = 0; k < N_FEATURES; k++) {
             means[j][k] = 0;
@@ -86,10 +87,12 @@ void GNB::train(vector<vector<double>> data, vector<string> labels)
         for (int k = 0; k < N_FEATURES; k++) {
             vars[j][k] /= class_count[j];
         }
+        priors[j] = float(class_count[j]) / n_data;
     }
 
     cout << "total data counts: " << n_data << std::endl;
     for (int j = 0; j < N_CLASSES; j++) {
+        std::cout << "priors" << j << ":" << priors[j] << std::endl;
         std::cout << "class counts " << j << ":" << class_count[j] << std::endl;
         std::cout << "means " << std::endl;
         for (int k = 0; k < N_FEATURES; k++) {
@@ -104,7 +107,7 @@ void GNB::train(vector<vector<double>> data, vector<string> labels)
     }
 }
 
-string GNB::predict(vector<double>)
+string GNB::predict(vector<double> obs)
 {
 	/*
 		Once trained, this method is called and expected to return 
@@ -121,9 +124,26 @@ string GNB::predict(vector<double>)
 		be one of "left", "keep" or "right".
 		"""
 		# TODO - complete this
+	    # DONE
 	*/
 
-	return this->possible_labels[1];
+    std::cout << "predictions: ";
+    for (int j = 0; j < N_CLASSES; j++) {
+        posteriors[j] = priors[j];
+        for (int k = 0; k < N_FEATURES; k++) {
+            posteriors[j] *= gauss(obs[k], means[j][k], vars[j][k]);
+        }
+        std::cout << priors[j] << " " << posteriors[j] << " ";
+    }
+    std::cout << std::endl;
+
+    int max_index = std::distance(std::begin(posteriors),
+            std::max_element(std::begin(posteriors),
+                             std::end(posteriors)));
+
+    cout << "predicts " << max_index << " " << possible_labels[max_index] << std::endl;
+
+	return this->possible_labels[max_index];
 
 }
 
